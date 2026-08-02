@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Server Files</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#312e81,#4f46e5);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+    overflow-x:hidden;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    width:92%;
+    max-width:1400px;
+    margin:auto;
+    padding:50px 0;
+}
+
+.heading{
+    color:white;
+    font-size:38px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#cbd5e1;
+    margin-bottom:40px;
+}
+
+.folder-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:28px;
+
+}
+
+.folder-card{
+
+    position:relative;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    transition:.4s;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.25);
+
+}
+
+.folder-card:hover{
+
+    transform:translateY(-12px) scale(1.04);
+
+    box-shadow:0 25px 45px rgba(0,0,0,.4);
+
+    border-color:#60a5fa;
+
+}
+
+.folder-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-120px;
+
+    left:-120px;
+
+    width:220px;
+
+    height:220px;
+
+    background:rgba(255,255,255,.12);
+
+    border-radius:50%;
+
+    transition:.6s;
+
+}
+
+.folder-card:hover::before{
+
+    transform:scale(2);
+
+}
+
+.icon{
+
+    font-size:70px;
+
+    animation:float 2.5s ease-in-out infinite;
+
+}
+
+@keyframes float{
+
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+    100%{transform:translateY(0);}
+
+}
+
+.folder-name{
+
+    margin-top:20px;
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    word-break:break-word;
+
+}
+
+.info{
+
+    margin-top:12px;
+
+    color:#dbeafe;
+
+    font-size:14px;
+
+}
+
+.open-btn{
+
+    margin-top:25px;
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:linear-gradient(90deg,#3b82f6,#06b6d4);
+
+    color:white;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.open-btn:hover{
+
+    transform:scale(1.05);
+
+    letter-spacing:1px;
+
+    box-shadow:0 10px 20px rgba(59,130,246,.5);
+
+}
+
+.status{
+
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    width:12px;
+
+    height:12px;
+
+    background:#22c55e;
+
+    border-radius:50%;
+
+    box-shadow:0 0 15px #22c55e;
+
+    animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{transform:scale(1);}
+    50%{transform:scale(1.6);}
+    100%{transform:scale(1);}
+
+}
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+
+}
+
+.search{
+
+    width:280px;
+    padding:12px 18px;
+    border-radius:40px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,.12);
+    color:white;
+    backdrop-filter:blur(10px);
+
+}
+
+.search::placeholder{
+
+    color:#ddd;
+
+}
+.Run-btn{
+    padding:12px 20px;
+    border-radius:40px;
+    border:none;
+    outline:none;
+    background:linear-gradient(90deg,#3b82f6,#06b6d4);
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+.Run-btn:hover{
+    transform:scale(1.05);
+    letter-spacing:1px;
+    box-shadow:0 10px 20px rgba(59,130,246,.5);
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div>
+<div class="host">
+<h1 class="heading">💻 Server: <b th:text="${host}"></b></h1>
+</div>
+<h3 class="heading">📂 Server Explorer <b th:text="${folder}"></b></h3>
+
+<p class="subtitle">
+Browse folders deployed on your VPS
+</p>
+
+</div>
+<form>
+<input class="search" placeholder="Command...">
+
+<button class="Run-btn">Run →</button>
+
+</form>
+
+</div>
+
+<div class="folder-grid">
+
+<div class="folder-card"
+     th:each="folder : ${folders}">
+
+<div class="status"></div>
+
+<div class="icon">
+📁
+</div>
+
+<div class="folder-name"
+     th:text="${folder}">
+</div>
+
+<div class="info">
+Linux Directory
+</div>
+
+<a th:href="@{/internal/path(path=${path + '/' + folder})}">
+    <button class="open-btn">Open Folder →</button>
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
