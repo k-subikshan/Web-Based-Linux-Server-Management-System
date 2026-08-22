@@ -45,7 +45,7 @@ public class internal_path {
     );
 
     List<String> folders = Arrays.asList(output.split("\\R"));
-
+    session.setAttribute("path", path);
     model.addAttribute("folders", folders);
     model.addAttribute("path", path);
     model.addAttribute("host", session.getAttribute("host"));
