@@ -50,7 +50,6 @@ public class internal_path {
     model.addAttribute("path", path);
     model.addAttribute("host", session.getAttribute("host"));
 
-    sshSession.disconnect();
 
     return "pathfolder";
     }

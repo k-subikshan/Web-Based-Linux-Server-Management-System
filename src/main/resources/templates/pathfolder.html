@@ -473,6 +473,7 @@
                 </p>
 
             </div>
+            
 
 
             <!-- COMMAND -->
@@ -500,6 +501,23 @@
                 </button>
 
             </form>
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+                <a th:href="@{/server-monitor}">
+                    <button
+                            class="Run-btn"
+                            type="button">
+
+                    Server monitor →
+                    </button></a>
+            </div>
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+                <button
+                        class="Run-btn"
+                        th:onclick="'window.location.href=\'' + @{/internal/path(path=${parentPath})} + '\';'">
+
+                    Go Back →
+                    </button>
+            </div>
 
         </div>
 

@@ -48,7 +48,6 @@ public class Run_command {
         model.addAttribute("command", command);
         model.addAttribute("path", path);
 
-        sshSession.disconnect();
 
         return "run_command"; // Return the name of the view to display the command output
     }
